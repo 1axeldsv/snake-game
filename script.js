@@ -15,7 +15,7 @@ let score = 0;
 let gameLoop;
 
 const elvireImg = new Image();
-elvireImg.src = 'URL_DE_L_IMAGE_ELVIRE';
+elvireImg.src = './elvire.png';
 
 const votreImg = new Image();
 votreImg.src = 'URL_DE_VOTRE_IMAGE';
