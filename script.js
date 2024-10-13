@@ -18,7 +18,7 @@ const elvireImg = new Image();
 elvireImg.src = './elvire.png';
 
 const votreImg = new Image();
-votreImg.src = 'URL_DE_VOTRE_IMAGE';
+votreImg.src = './vous.png';
 
 let currentFoodImage = elvireImg;
 
