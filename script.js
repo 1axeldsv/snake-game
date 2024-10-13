@@ -22,6 +22,9 @@ votreImg.src = './vous.png';
 
 let currentFoodImage = elvireImg;
 
+let touchStartX = 0;
+let touchStartY = 0;
+
 function getRandomFoodPosition() {
     return {
         x: Math.floor(Math.random() * tileCount),
@@ -88,6 +91,8 @@ function updateScore() {
 }
 
 document.addEventListener('keydown', changeDirection);
+canvas.addEventListener('touchstart', handleTouchStart, false);
+canvas.addEventListener('touchmove', handleTouchMove, false);
 
 function changeDirection(event) {
     const LEFT_KEY = 37;
@@ -117,6 +122,41 @@ function changeDirection(event) {
         dx = 0;
         dy = 1;
     }
+}
+
+function handleTouchStart(evt) {
+    touchStartX = evt.touches[0].clientX;
+    touchStartY = evt.touches[0].clientY;
+}
+
+function handleTouchMove(evt) {
+    if (!touchStartX || !touchStartY) {
+        return;
+    }
+
+    let touchEndX = evt.touches[0].clientX;
+    let touchEndY = evt.touches[0].clientY;
+
+    let dx = touchEndX - touchStartX;
+    let dy = touchEndY - touchStartY;
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0 && !goingLeft) {
+            changeDirection({keyCode: 39}); // Droite
+        } else if (dx < 0 && !goingRight) {
+            changeDirection({keyCode: 37}); // Gauche
+        }
+    } else {
+        if (dy > 0 && !goingUp) {
+            changeDirection({keyCode: 40}); // Bas
+        } else if (dy < 0 && !goingDown) {
+            changeDirection({keyCode: 38}); // Haut
+        }
+    }
+
+    touchStartX = 0;
+    touchStartY = 0;
+    evt.preventDefault();
 }
 
 gameLoop = setInterval(drawGame, 100);
