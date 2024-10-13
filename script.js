@@ -22,9 +22,6 @@ votreImg.src = './vous.png';
 
 let currentFoodImage = elvireImg;
 
-let touchStartX = 0;
-let touchStartY = 0;
-
 function getRandomFoodPosition() {
     return {
         x: Math.floor(Math.random() * tileCount),
@@ -84,6 +81,17 @@ function checkCollision() {
 function gameOver() {
     clearInterval(gameLoop);
     alert('Game Over! Votre score: ' + score);
+    resetGame();
+}
+
+function resetGame() {
+    snake = [{x: 10, y: 10}];
+    food = getRandomFoodPosition();
+    dx = 0;
+    dy = 0;
+    score = 0;
+    currentFoodImage = elvireImg;
+    gameLoop = setInterval(drawGame, 100);
 }
 
 function updateScore() {
@@ -91,8 +99,6 @@ function updateScore() {
 }
 
 document.addEventListener('keydown', changeDirection);
-canvas.addEventListener('touchstart', handleTouchStart, false);
-canvas.addEventListener('touchmove', handleTouchMove, false);
 
 function changeDirection(event) {
     const LEFT_KEY = 37;
@@ -101,62 +107,38 @@ function changeDirection(event) {
     const DOWN_KEY = 40;
 
     const keyPressed = event.keyCode;
+    changeDirectionByCode(keyPressed);
+}
+
+function changeDirectionByCode(keyCode) {
     const goingUp = dy === -1;
     const goingDown = dy === 1;
     const goingRight = dx === 1;
     const goingLeft = dx === -1;
 
-    if (keyPressed === LEFT_KEY && !goingRight) {
+    if (keyCode === 37 && !goingRight) {
         dx = -1;
         dy = 0;
     }
-    if (keyPressed === UP_KEY && !goingDown) {
+    if (keyCode === 38 && !goingDown) {
         dx = 0;
         dy = -1;
     }
-    if (keyPressed === RIGHT_KEY && !goingLeft) {
+    if (keyCode === 39 && !goingLeft) {
         dx = 1;
         dy = 0;
     }
-    if (keyPressed === DOWN_KEY && !goingUp) {
+    if (keyCode === 40 && !goingUp) {
         dx = 0;
         dy = 1;
     }
 }
 
-function handleTouchStart(evt) {
-    touchStartX = evt.touches[0].clientX;
-    touchStartY = evt.touches[0].clientY;
-}
+// Mobile controls
+document.getElementById('up').addEventListener('click', () => changeDirectionByCode(38));
+document.getElementById('down').addEventListener('click', () => changeDirectionByCode(40));
+document.getElementById('left').addEventListener('click', () => changeDirectionByCode(37));
+document.getElementById('right').addEventListener('click', () => changeDirectionByCode(39));
 
-function handleTouchMove(evt) {
-    if (!touchStartX || !touchStartY) {
-        return;
-    }
-
-    let touchEndX = evt.touches[0].clientX;
-    let touchEndY = evt.touches[0].clientY;
-
-    let dx = touchEndX - touchStartX;
-    let dy = touchEndY - touchStartY;
-
-    if (Math.abs(dx) > Math.abs(dy)) {
-        if (dx > 0 && !goingLeft) {
-            changeDirection({keyCode: 39}); // Droite
-        } else if (dx < 0 && !goingRight) {
-            changeDirection({keyCode: 37}); // Gauche
-        }
-    } else {
-        if (dy > 0 && !goingUp) {
-            changeDirection({keyCode: 40}); // Bas
-        } else if (dy < 0 && !goingDown) {
-            changeDirection({keyCode: 38}); // Haut
-        }
-    }
-
-    touchStartX = 0;
-    touchStartY = 0;
-    evt.preventDefault();
-}
-
-gameLoop = setInterval(drawGame, 100);
+// Start the game
+resetGame();
