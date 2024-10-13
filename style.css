@@ -14,6 +14,8 @@ body {
     align-items: flex-start;
     gap: 20px;
     padding: 20px;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .game-container {
@@ -41,6 +43,32 @@ body {
     height: 3705px;
 }
 
+#mobile-controls {
+    display: none;
+    margin-top: 20px;
+}
+
+#mobile-controls button {
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+}
+
+@media (min-width: 1201px) {
+    .container {
+        flex-direction: row;
+    }
+    
+    .game-container {
+        width: calc(50% - 10px);
+    }
+    
+    .form-container {
+        width: calc(50% - 10px);
+    }
+}
+
 @media (max-width: 1200px) {
     .container {
         flex-direction: column;
@@ -53,5 +81,19 @@ body {
     #gameCanvas {
         width: 100%;
         height: auto;
+        max-width: 400px;
+        max-height: 400px;
     }
+    
+    #mobile-controls {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        gap: 5px;
+    }
+    
+    #up { grid-area: 1 / 2 / 2 / 3; }
+    #left { grid-area: 2 / 1 / 3 / 2; }
+    #right { grid-area: 2 / 3 / 3 / 4; }
+    #down { grid-area: 3 / 2 / 4 / 3; }
 }
