@@ -22,6 +22,9 @@ votreImg.src = './vous.png';
 
 let currentFoodImage = elvireImg;
 
+// Meilleurs scores
+let bestScores = JSON.parse(localStorage.getItem('bestScores')) || [];
+
 function getRandomFoodPosition() {
     return {
         x: Math.floor(Math.random() * tileCount),
@@ -57,7 +60,7 @@ function moveSnake() {
 
 function drawSnake() {
     snake.forEach((segment, index) => {
-        ctx.fillStyle = index === 0 ? 'darkgreen' : 'green';
+        ctx.fillStyle = index === 0 ? '#ff69b4' : '#ffb6c1';
         ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
     });
 }
@@ -80,8 +83,20 @@ function checkCollision() {
 
 function gameOver() {
     clearInterval(gameLoop);
-    alert('Game Over! Votre score: ' + score);
+    updateBestScores();
+    alert(`Game Over! Votre score: ${score}\n\nMeilleurs scores:\n${getBestScoresText()}`);
     resetGame();
+}
+
+function updateBestScores() {
+    bestScores.push(score);
+    bestScores.sort((a, b) => b - a);
+    bestScores = bestScores.slice(0, 5);
+    localStorage.setItem('bestScores', JSON.stringify(bestScores));
+}
+
+function getBestScoresText() {
+    return bestScores.map((score, index) => `${index + 1}. ${score}`).join('\n');
 }
 
 function resetGame() {
@@ -95,7 +110,7 @@ function resetGame() {
 }
 
 function updateScore() {
-    scoreElement.textContent = 'Score: ' + score;
+    scoreElement.textContent = `Score: ${score}`;
 }
 
 document.addEventListener('keydown', changeDirection);
