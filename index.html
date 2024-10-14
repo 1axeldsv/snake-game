@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeu Snake Personnalisé et Formulaire</title>
+    <title>Mariage AxElvire - Jeu Snake et Formulaire</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <h1>Mariage AxElvire</h1>
+        <p class="subtitle">Jouez au Snake et complétez notre formulaire de mariage !</p>
+    </header>
     <div class="container">
         <div class="game-container">
+            <h2>Attrapez nos têtes !</h2>
             <canvas id="gameCanvas" width="400" height="400"></canvas>
             <div id="score">Score: 0</div>
             <div id="mobile-controls">
@@ -17,11 +23,17 @@
                 <button id="right">▶</button>
                 <button id="down">▼</button>
             </div>
+            <p class="game-instruction">Utilisez les flèches du clavier pour jouer, ou les boutons sur mobile.</p>
         </div>
         <div class="form-container">
+            <h2>Répondez à notre formulaire</h2>
+            <p class="form-instruction">Pendant que vous jouez, n'oubliez pas de remplir notre formulaire de mariage !</p>
             <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdWtpBwRVGgoGWH0JPi1x5xkhOKopCWKxAZgI1cpFVTFLQDcA/viewform?embedded=true" width="640" height="3705" frameborder="0" marginheight="0" marginwidth="0">Chargement…</iframe>
         </div>
     </div>
+    <footer>
+        <p>Merci de participer à notre jeu et de remplir notre formulaire !</p>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
