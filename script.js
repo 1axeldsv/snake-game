@@ -20,15 +20,7 @@ elvireImg.src = './elvire.png';
 const votreImg = new Image();
 votreImg.src = './vous.png';
 
-// Ajoutez ici les 28 nouvelles images
-const newImages = Array.from({length: 28}, (_, i) => {
-    const img = new Image();
-    img.src = `./image${i+1}.png`;
-    return img;
-});
-
 let currentFoodImage = elvireImg;
-let availableImages = [elvireImg, votreImg];
 
 // Meilleurs scores
 let bestScores = JSON.parse(localStorage.getItem('bestScores')) || [];
@@ -59,11 +51,8 @@ function moveSnake() {
     snake.unshift(head);
     if (head.x === food.x && head.y === food.y) {
         score++;
-        if (score === 10) {
-            availableImages = availableImages.concat(newImages);
-        }
         food = getRandomFoodPosition();
-        currentFoodImage = availableImages[Math.floor(Math.random() * availableImages.length)];
+        currentFoodImage = currentFoodImage === elvireImg ? votreImg : elvireImg;
     } else {
         snake.pop();
     }
@@ -117,7 +106,6 @@ function resetGame() {
     dy = 0;
     score = 0;
     currentFoodImage = elvireImg;
-    availableImages = [elvireImg, votreImg];
     gameLoop = setInterval(drawGame, 100);
 }
 
@@ -134,11 +122,6 @@ function changeDirection(event) {
     const DOWN_KEY = 40;
 
     const keyPressed = event.keyCode;
-    
-    if (keyPressed === UP_KEY || keyPressed === DOWN_KEY) {
-        event.preventDefault();
-    }
-    
     changeDirectionByCode(keyPressed);
 }
 
@@ -171,13 +154,6 @@ document.getElementById('up').addEventListener('click', () => changeDirectionByC
 document.getElementById('down').addEventListener('click', () => changeDirectionByCode(40));
 document.getElementById('left').addEventListener('click', () => changeDirectionByCode(37));
 document.getElementById('right').addEventListener('click', () => changeDirectionByCode(39));
-
-// Prevent scrolling when using arrow keys
-window.addEventListener("keydown", function(e) {
-    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-        e.preventDefault();
-    }
-}, false);
 
 // Start the game
 resetGame();
