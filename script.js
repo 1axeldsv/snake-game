@@ -13,6 +13,7 @@ let dx = 0;
 let dy = 0;
 let score = 0;
 let gameLoop;
+let gameStarted = false;
 
 const elvireImg = new Image();
 elvireImg.src = './elvire.png';
@@ -34,7 +35,9 @@ function getRandomFoodPosition() {
 
 function drawGame() {
     clearCanvas();
-    moveSnake();
+    if (gameStarted) {
+        moveSnake();
+    }
     drawSnake();
     drawFood();
     checkCollision();
@@ -105,17 +108,19 @@ function resetGame() {
     dx = 0;
     dy = 0;
     score = 0;
+    gameStarted = false;
     currentFoodImage = elvireImg;
-    gameLoop = setInterval(drawGame, 100);
+    clearInterval(gameLoop);
+    drawGame();
 }
 
 function updateScore() {
     scoreElement.textContent = `Score: ${score}`;
 }
 
-document.addEventListener('keydown', changeDirection);
+document.addEventListener('keydown', handleKeyPress);
 
-function changeDirection(event) {
+function handleKeyPress(event) {
     const LEFT_KEY = 37;
     const RIGHT_KEY = 39;
     const UP_KEY = 38;
@@ -126,6 +131,10 @@ function changeDirection(event) {
     // Prevent default behavior for arrow keys
     if ([LEFT_KEY, RIGHT_KEY, UP_KEY, DOWN_KEY].includes(keyPressed)) {
         event.preventDefault();
+    }
+    
+    if (!gameStarted) {
+        startGame();
     }
     
     changeDirectionByCode(keyPressed);
@@ -155,14 +164,24 @@ function changeDirectionByCode(keyCode) {
     }
 }
 
-// Mobile controls
-document.getElementById('up').addEventListener('click', () => changeDirectionByCode(38));
-document.getElementById('down').addEventListener('click', () => changeDirectionByCode(40));
-document.getElementById('left').addEventListener('click', () => changeDirectionByCode(37));
-document.getElementById('right').addEventListener('click', () => changeDirectionByCode(39));
+function startGame() {
+    if (!gameStarted) {
+        gameStarted = true;
+        gameLoop = setInterval(drawGame, 100);
+    }
+}
 
-// Start the game
-resetGame();
+// Mobile controls
+const mobileButtons = ['up', 'down', 'left', 'right'];
+mobileButtons.forEach(direction => {
+    document.getElementById(direction).addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        if (!gameStarted) {
+            startGame();
+        }
+        changeDirectionByCode({up: 38, down: 40, left: 37, right: 39}[direction]);
+    });
+});
 
 // Prevent scrolling with arrow keys
 window.addEventListener("keydown", function(e) {
@@ -170,3 +189,6 @@ window.addEventListener("keydown", function(e) {
         e.preventDefault();
     }
 }, false);
+
+// Initial draw
+drawGame();
