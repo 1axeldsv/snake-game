@@ -122,6 +122,12 @@ function changeDirection(event) {
     const DOWN_KEY = 40;
 
     const keyPressed = event.keyCode;
+    
+    // Prevent default behavior for arrow keys
+    if ([LEFT_KEY, RIGHT_KEY, UP_KEY, DOWN_KEY].includes(keyPressed)) {
+        event.preventDefault();
+    }
+    
     changeDirectionByCode(keyPressed);
 }
 
@@ -157,3 +163,10 @@ document.getElementById('right').addEventListener('click', () => changeDirection
 
 // Start the game
 resetGame();
+
+// Prevent scrolling with arrow keys
+window.addEventListener("keydown", function(e) {
+    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
