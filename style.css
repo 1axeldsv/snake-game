@@ -51,6 +51,8 @@ h2 {
 #gameCanvas {
     border: 2px solid #ff69b4;
     border-radius: 5px;
+    max-width: 100%;
+    height: auto;
 }
 
 #score {
@@ -85,7 +87,7 @@ h2 {
 
 .form-container iframe {
     width: 100%;
-    height: 3705px;
+    height: 600px;
     border: none;
 }
 
@@ -96,17 +98,29 @@ footer {
     padding: 10px 0;
 }
 
-@media (min-width: 1201px) {
+@media (min-width: 1024px) {
     .container {
         flex-direction: row;
     }
     
-    .game-container, .form-container {
-        width: calc(50% - 20px);
+    .game-container {
+        width: calc(40% - 10px);
+    }
+    
+    .form-container {
+        width: calc(60% - 10px);
+    }
+    
+    .form-container iframe {
+        height: 800px;
+    }
+    
+    #mobile-controls {
+        display: none !important;
     }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1023px) {
     .container {
         flex-direction: column;
     }
@@ -116,10 +130,10 @@ footer {
     }
     
     #gameCanvas {
-        width: 100%;
-        height: auto;
         max-width: 400px;
         max-height: 400px;
+        margin: 0 auto;
+        display: block;
     }
     
     #mobile-controls {
@@ -127,6 +141,8 @@ footer {
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, 1fr);
         gap: 5px;
+        max-width: 200px;
+        margin: 20px auto;
     }
     
     #up { grid-area: 1 / 2 / 2 / 3; }
