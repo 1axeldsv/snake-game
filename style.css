@@ -135,6 +135,10 @@ footer {
         width: 100%;
     }
     
+    .form-container {
+        order: -1; /* This moves the form container to the top */
+    }
+    
     #gameCanvas {
         max-width: 400px;
         max-height: 400px;
