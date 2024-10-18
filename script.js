@@ -21,10 +21,38 @@ elvireImg.src = './elvire.png';
 const votreImg = new Image();
 votreImg.src = './vous.png';
 
+const bruneImg = new Image();
+bruneImg.src = './brune.png';
+
+const img113 = new Image();
+img113.src = './113.png';
+
+const gaetImg = new Image();
+gaetImg.src = './gaet.png';
+
+const weestivalImg = new Image();
+weestivalImg.src = './weestival.png';
+
 let currentFoodImage = elvireImg;
 
 // Meilleurs scores
 let bestScores = JSON.parse(localStorage.getItem('bestScores')) || [];
+
+function getFoodImage(score) {
+    if (score === 10) return bruneImg;
+    if (score === 11) return img113;
+    if (score === 12) return gaetImg;
+    if (score === 13) return weestivalImg;
+    
+    // Après le niveau 13, on utilise toutes les images de manière aléatoire
+    if (score > 13) {
+        const allImages = [elvireImg, votreImg, bruneImg, img113, gaetImg, weestivalImg];
+        return allImages[Math.floor(Math.random() * allImages.length)];
+    }
+    
+    // Avant le niveau 10, on garde l'alternance originale
+    return currentFoodImage === elvireImg ? votreImg : elvireImg;
+}
 
 function getRandomFoodPosition() {
     return {
@@ -55,7 +83,7 @@ function moveSnake() {
     if (head.x === food.x && head.y === food.y) {
         score++;
         food = getRandomFoodPosition();
-        currentFoodImage = currentFoodImage === elvireImg ? votreImg : elvireImg;
+        currentFoodImage = getFoodImage(score);
     } else {
         snake.pop();
     }
@@ -128,7 +156,6 @@ function handleKeyPress(event) {
 
     const keyPressed = event.keyCode;
     
-    // Prevent default behavior for arrow keys
     if ([LEFT_KEY, RIGHT_KEY, UP_KEY, DOWN_KEY].includes(keyPressed)) {
         event.preventDefault();
     }
