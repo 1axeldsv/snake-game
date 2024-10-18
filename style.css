@@ -133,10 +133,12 @@ footer {
     
     .game-container, .form-container {
         width: 100%;
+        padding: 30px;
+        margin: 15px;
     }
     
     .form-container {
-        order: -1; /* This moves the form container to the top */
+        order: -1;
     }
     
     #gameCanvas {
