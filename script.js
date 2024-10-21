@@ -41,7 +41,6 @@ let bestScores = JSON.parse(localStorage.getItem('bestScores')) || [];
 function getFoodImage(score) {
    if (score === 10) return bruneImg;
   if (score === 30) return img113;
-    if (score === 1) return gaetImg;
    
     
     // Pour tous les autres scores, on alterne entre Elvire et Votre photo
