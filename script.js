@@ -39,16 +39,14 @@ let currentFoodImage = elvireImg;
 let bestScores = JSON.parse(localStorage.getItem('bestScores')) || [];
 
 function getFoodImage(score) {
-    if (score === 10) return bruneImg;
-    if (score === 11) return img113;
-    if (score === 12) return gaetImg;
-    if (score === 13) return weestivalImg;
+   if (score === 10) return bruneImg;
+  if (score === 30) return img113;
+    if (score === 1) return gaetImg;
+   
     
-    // Après le niveau 13, on utilise toutes les images de manière aléatoire
-    if (score > 13) {
-        const allImages = [elvireImg, votreImg, bruneImg, img113, gaetImg, weestivalImg];
-        return allImages[Math.floor(Math.random() * allImages.length)];
-    }
+    // Pour tous les autres scores, on alterne entre Elvire et Votre photo
+  return currentFoodImage === elvireImg ? votreImg : elvireImg;
+}
     
     // Avant le niveau 10, on garde l'alternance originale
     return currentFoodImage === elvireImg ? votreImg : elvireImg;
